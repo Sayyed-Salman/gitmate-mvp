@@ -45,27 +45,28 @@ def check_remote_login_status():
 
 
 @ staticmethod
-def set_login_status(status: bool = True):
+def set_login_status(status_update: bool = True):
     """
     Set login status to True or False.
     """
     with open(os.path.join(root_path, "status.json"), "r") as f:
         status = json.load(f)
 
-    status["loggedIn"] = status
+    status["loggedIn"] = status_update
+
     with open(os.path.join(root_path, "status.json"), "w") as f:
         json.dump(status, f)
 
 
 @ staticmethod
-def set_remote_login_status(status: bool = True):
+def set_remote_login_status(status_update: bool = True):
     """
     Set remote login status to True or False.
     """
     with open(os.path.join(root_path, "status.json"), "r") as f:
         status = json.load(f)
 
-    status["remoteLoggedIn"] = status
+    status["remoteLoggedIn"] = status_update
 
     with open(os.path.join(root_path, "status.json"), "w") as f:
         json.dump(status, f)
