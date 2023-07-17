@@ -26,10 +26,12 @@ def check_login_status():
     if not check_status_file():
         return FileNotFoundError(message="status.json file not found.")
 
-    with open(os.path.join(root_path, "status.json"), "r", encoding="utf-8") as f:
+    with open(os.path.join(root_path, "status.json"), "r") as f:
         status = json.load(f)
 
-    if status["loggedIn"]:
+    print(status)
+
+    if status["loggedIn"] == True:
         return True
 
 
@@ -40,7 +42,7 @@ def check_remote_login_status():
     """
     with open(os.path.join(root_path, "status.json"), "r") as f:
         status = json.load(f)
-    if status["remoteLoggedIn"]:
+    if status["remoteLoggedIn"] == True:
         return True
 
 
@@ -52,10 +54,10 @@ def set_login_status(status_update: bool = True):
     with open(os.path.join(root_path, "status.json"), "r") as f:
         status = json.load(f)
 
-    status["loggedIn"] = status_update
+    status["loggedIn"] = f"{status_update}"
 
     with open(os.path.join(root_path, "status.json"), "w") as f:
-        json.dump(status, f)
+        json.dump(status, f, indent=4)
 
 
 @ staticmethod
@@ -66,10 +68,10 @@ def set_remote_login_status(status_update: bool = True):
     with open(os.path.join(root_path, "status.json"), "r") as f:
         status = json.load(f)
 
-    status["remoteLoggedIn"] = status_update
+    status["remoteLoggedIn"] = f"{status_update}"
 
     with open(os.path.join(root_path, "status.json"), "w") as f:
-        json.dump(status, f)
+        json.dump(status, f, indent=4)
 
 
 @ staticmethod
