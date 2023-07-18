@@ -1,0 +1,27 @@
+# set usernmae and email to .gitconfig
+
+git config --global user.name <username>
+git config --global user.email <email>
+
+# create a credential file or store it in $Home/.git-credentials
+
+touch ./.gitcredentials
+git config --global credential.helper store --path=./.gitcredentials
+
+# set git credentials in file or gcm if set
+
+git credential approve
+url=https://host.com
+username=<username>
+password=<token>
+
+# get git credentials 
+# set multiple accounts from the same host to fetch specific creds use "username" parameter
+
+git credential fill
+url=https://host.com
+username=<username>
+
+
+
+
