@@ -3,12 +3,17 @@
 git config --global user.name <username>
 git config --global user.email <email>
 
-# create a credential file or store it in $Home/.git-credentials
+# unset username and email in .gitconfig
+
+git config --global --unset user.name
+git config --global --unset user.email
+
+# create a credential file or store it in $HOME/.git-credentials by default
 
 touch ./.gitcredentials
 git config --global credential.helper store --path=./.gitcredentials
 
-# set git credentials in file or gcm if set
+# set git credentials in file or gcm
 
 git credential approve
 url=https://host.com
@@ -22,6 +27,10 @@ git credential fill
 url=https://host.com
 username=<username>
 
+## remove git credentials
 
+git credential reject 
+url=http://host.com
+username=<username>
 
 

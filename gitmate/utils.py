@@ -102,12 +102,31 @@ def add_remote_credentials(username, password, url="https://github.com"):
     Add remote credentials.
     """
     command = ['git', 'credential', 'approve']
-    input_data = f'url={url}\nusername={username}\npassword={password}\n'
+    input_data = f'url={url}\nusername={username}\npassword={password}\n\n'
 
     process = subprocess.Popen(command, stdin=subprocess.PIPE)
     process.communicate(input_data.encode())
 
 
+@staticmethod
+def remove_remote_credentials(username, url="https://github.com"):
+    """
+    Remove remote credentials.
+    """
+    command = ['git', 'credential', 'reject']
+    input_data = f'url={url}\nusername={username}\n\n'
+
+    process = subprocess.Popen(command, stdin=subprocess.PIPE)
+    process.communicate(input_data.encode())
+
+
+@staticmethod
+def set_git_credential_helper():
+    """
+    Set git credential helper.
+    """
+    subprocess.run(['git', 'config', '--global', 'credential.helper', 'store'])
+
+
 if __name__ == "__main__":
     print(check_status_file())
-    print(root_path)

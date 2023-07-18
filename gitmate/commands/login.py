@@ -1,8 +1,11 @@
 import click
+import logging
+
 from utils import check_login_status, check_remote_login_status
 from utils import set_login_status, set_remote_login_status
 from utils import set_git_config
 
+logger = logging.getLogger(__name__)
 
 @click.group("login")
 def login():
@@ -27,6 +30,7 @@ def local(username, email):
     set_login_status()
 
     # Print success message
+    logger.log(logging.INFO, "Successfully logged in!")
     click.echo("Successfully logged in!")
 
 
@@ -39,8 +43,6 @@ def remote(host, token):
     if check_remote_login_status():
         click.echo("Already logged in!")
         return
-    
-    
 
 
 login.add_command(remote)
