@@ -96,6 +96,18 @@ def set_git_config(name, email):
                    'user.email', email])
 
 
+@staticmethod
+def add_remote_credentials(username, password, url="https://github.com"):
+    """
+    Add remote credentials.
+    """
+    command = ['git', 'credential', 'approve']
+    input_data = f'url={url}\nusername={username}\npassword={password}\n'
+
+    process = subprocess.Popen(command, stdin=subprocess.PIPE)
+    process.communicate(input_data.encode())
+
+
 if __name__ == "__main__":
     print(check_status_file())
     print(root_path)

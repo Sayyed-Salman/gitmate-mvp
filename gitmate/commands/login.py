@@ -39,6 +39,8 @@ def remote(host, token):
     if check_remote_login_status():
         click.echo("Already logged in!")
         return
+    
+    
 
 
 login.add_command(remote)
