@@ -3,9 +3,10 @@ import logging
 
 from utils import check_login_status, check_remote_login_status
 from utils import set_login_status, set_remote_login_status
-from utils import set_git_config
+from utils import set_git_config, setup_git_credential_helper
 
 logger = logging.getLogger(__name__)
+
 
 @click.group("login")
 def login():
@@ -42,6 +43,13 @@ def remote(host, token):
     # Check if already logged in
     if check_remote_login_status():
         click.echo("Already logged in!")
+        return
+
+    # Setup git credential helper
+    credentials_ = setup_git_credential_helper()
+
+    if not credentials_ == 1:
+        click.echo("Something went wrong!")
         return
 
 
