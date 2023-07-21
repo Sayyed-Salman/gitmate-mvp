@@ -4,7 +4,7 @@ import logging
 from utils import check_login_status, check_remote_login_status
 from utils import set_login_status, set_remote_login_status
 from utils import set_git_config, setup_git_credential_helper,set_username
-from utils import add_remote_credentials
+from utils import add_remote_credentials, get_username
 
 logger = logging.getLogger(__name__)
 

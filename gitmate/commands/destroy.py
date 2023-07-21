@@ -19,3 +19,6 @@ def remove_creds_file(path):
     else:
         click.echo("No credentials file found!")
     click.echo("Successfully deleted credentials!")
+
+
+destroy.add_command(remove_creds_file)
