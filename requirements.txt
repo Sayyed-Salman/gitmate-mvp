@@ -1,0 +1,4 @@
+autopep8==2.0.2
+click==8.1.5
+colorama==0.4.6
+pycodestyle==2.10.0
