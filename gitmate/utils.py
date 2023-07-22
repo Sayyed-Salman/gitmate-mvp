@@ -19,6 +19,28 @@ def check_status_file() -> bool:
     else:
         return False
 
+def get_username() -> str:
+    if not check_status_file():
+        return FileNotFoundError(message="status.json file not found.")
+
+    with open(os.path.join(root_path, "status.json"),'r') as f:
+        status = json.load(f)
+
+    username = status["username"]
+
+    return username
+
+def set_username(username):
+    if not check_status_file():
+        return FileNotFoundError(message="status.json not found")
+    
+    with open(os.path.join(root_path, "status.json"),'r') as f:
+        status = json.load(f)
+
+    status["username"] = username
+
+    with open(os.path.join(root_path, "status.json"),'w') as f:
+        json.dump(status, f, indent=4)
 
 @ staticmethod
 def check_login_status():
@@ -47,6 +69,7 @@ def check_remote_login_status():
     """
     with open(os.path.join(root_path, "status.json"), "r") as f:
         status = json.load(f)
+        
     if status["remoteLoggedIn"] == True:
         return True
 
@@ -159,9 +182,12 @@ def setup_git_credential_helper(state="store", path=None):
         path (str, optional): Path of the credential helper. Defaults to None.
     """
     try:
-        if state == "store":
+        if state == "store" and path:
             subprocess.run(['git', 'config', '--global',
                             'credential.helper', 'store', "--file", path])
+        elif state == "store":
+            subprocess.run(['git', 'config', '--global',
+                            'credential.helper', 'store'])
         elif state == "manager":
             subprocess.run(['git', 'config', '--global',
                             'credential.helper', 'manager-core'])
