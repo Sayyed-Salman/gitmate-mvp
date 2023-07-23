@@ -99,12 +99,12 @@ def set_remote_login_status(status_update: bool = True):
     Args:
         status_update (bool, optional): Status to be updated. Defaults to True.
     """
-    with open(os.path.join(root_path, "status.json"), "r") as f:
+    with open(os.path.join(root_path, "status.json"), "r", encoding="utf-8") as f:
         status = json.load(f)
 
     status["remoteLoggedIn"] = f"{status_update}"
 
-    with open(os.path.join(root_path, "status.json"), "w") as f:
+    with open(os.path.join(root_path, "status.json"), "w", encoding="utf-8") as f:
         json.dump(status, f, indent=4)
 
 
@@ -118,9 +118,9 @@ def unset_git_config(name, email):
         email (str): Email of the user.
     """
     subprocess.run(['git', 'config', '--global',
-                   '--unset', 'user.name', name])
+                   '--unset', 'user.name', name], check=False)
     subprocess.run(['git', 'config', '--global',
-                   '--unset', 'user.email', email])
+                   '--unset', 'user.email', email], check=False)
 
 
 @ staticmethod
