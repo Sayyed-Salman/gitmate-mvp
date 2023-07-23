@@ -20,6 +20,9 @@ def check_status_file() -> bool:
         return False
 
 def get_username() -> str:
+    """
+    Get username from status.json file.
+    """
     if not check_status_file():
         return FileNotFoundError(message="status.json file not found.")
 
@@ -31,6 +34,12 @@ def get_username() -> str:
     return username
 
 def set_username(username):
+    """
+    set username in status.json file.
+
+    Args:
+        username (str): Username of the user.
+    """
     if not check_status_file():
         return FileNotFoundError(message="status.json not found")
     
