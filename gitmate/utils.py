@@ -19,6 +19,7 @@ def check_status_file() -> bool:
     else:
         return False
 
+
 def get_username() -> str:
     """
     Get username from status.json file.
@@ -26,12 +27,13 @@ def get_username() -> str:
     if not check_status_file():
         return FileNotFoundError(message="status.json file not found.")
 
-    with open(os.path.join(root_path, "status.json"),'r') as f:
+    with open(os.path.join(root_path, "status.json"), 'r') as f:
         status = json.load(f)
 
     username = status["username"]
 
     return username
+
 
 def set_username(username):
     """
@@ -42,14 +44,15 @@ def set_username(username):
     """
     if not check_status_file():
         return FileNotFoundError(message="status.json not found")
-    
-    with open(os.path.join(root_path, "status.json"),'r') as f:
+
+    with open(os.path.join(root_path, "status.json"), 'r') as f:
         status = json.load(f)
 
     status["username"] = username
 
-    with open(os.path.join(root_path, "status.json"),'w') as f:
+    with open(os.path.join(root_path, "status.json"), 'w') as f:
         json.dump(status, f, indent=4)
+
 
 @ staticmethod
 def check_login_status():
@@ -78,7 +81,7 @@ def check_remote_login_status():
     """
     with open(os.path.join(root_path, "status.json"), "r") as f:
         status = json.load(f)
-        
+
     if status["remoteLoggedIn"] == True:
         return True
 
@@ -207,6 +210,28 @@ def setup_git_credential_helper(state="store", path=None):
     except Exception as e:
         logger.log(logging.ERROR, e)
         return "Error setting up credential helper!"
+
+
+def create_a_folder_with_readme(name, path):
+    """
+    Create a folder with a 'readme.md' file inside it.
+
+    Parameters:
+        name (str): The name of the folder.
+        path (str): The path where the folder will be created.
+
+    Returns:
+        str: The absolute path of the created folder.
+    """
+    folder_path = os.path.join(path, name)
+    os.makedirs(folder_path, exist_ok=True)
+
+    readme_content = f"# {name}"
+    readme_file_path = os.path.join(folder_path, "readme-mate.md")
+    with open(readme_file_path, "w") as readme_file:
+        readme_file.write(readme_content)
+
+    return os.path.abspath(folder_path)
 
 
 if __name__ == "__main__":
