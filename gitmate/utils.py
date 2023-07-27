@@ -234,5 +234,31 @@ def create_a_folder_with_readme(name, path):
     return os.path.abspath(folder_path)
 
 
+def init_and_first_commit(path):
+    """
+    Run "git init", "git add .", and "git commit -m 'mate commit'" commands.
+
+    Parameters:
+        path (str): The path of the directory where the Git repository will be initialized.
+
+    Returns:
+        bool: True if the commands executed successfully, False otherwise.
+    """
+    try:
+        # Run "git init" command
+        subprocess.run(["git", "init"], cwd=path, check=True)
+
+        # Run "git add ." command
+        subprocess.run(["git", "add", "."], cwd=path, check=True)
+
+        # Run "git commit -m 'mate commit'" command
+        subprocess.run(["git", "commit", "-m", "mate commit"],
+                       cwd=path, check=True)
+
+        return True  # All commands executed successfully
+    except subprocess.CalledProcessError:
+        return False  # An error occurred while executing the commands
+
+
 if __name__ == "__main__":
     print(check_status_file())
