@@ -34,3 +34,15 @@ def repo(name, path):
 
     # Create a folder with a readme file
     folder_path = create_a_folder_with_readme(name, new_path)
+
+    # Create a repo in remote host.
+
+    # link both of them
+
+    # init on local
+
+    # push to remote
+
+
+
+create.add_command(repo)

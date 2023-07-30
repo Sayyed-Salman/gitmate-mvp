@@ -9,7 +9,6 @@ def destroy():
     """Delete credentials from GitMate."""
 
 
-
 @click.command("file")
 @click.option("--path", "-p", help="Credentials file path.")
 def remove_creds_file(path):
@@ -36,4 +35,6 @@ def remove_user(username, host):
     remove_remote_credentials(username, host)
     click.echo("Successfully deleted credentials!")
 
+
 destroy.add_command(remove_creds_file)
+destroy.add_command(remove_user)
