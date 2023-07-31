@@ -1,0 +1,7 @@
+
+
+PROVIDERS = [
+    'github',
+    'gitlab',
+    'azure'
+]

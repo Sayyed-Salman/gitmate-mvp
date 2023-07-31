@@ -2,5 +2,6 @@
     "loggedIn": "True",
     "remoteLoggedIn": "false",
     "host": "",
-    "username": "salmansyyd"
+    "username": "salmansyyd",
+    "custom_host":"false"
 }
