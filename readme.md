@@ -5,4 +5,4 @@
 </p>
 <h1 align="center">Gitmate</h1>
 <h2 align="center">Automate your git workflow with gitmate cli.</h2>
-<p align="center"><strong>Simple fast and easy to setup ⚡</strong></p>
+<p align="center"><strong>Simple fast and easy ⚡</strong></p>

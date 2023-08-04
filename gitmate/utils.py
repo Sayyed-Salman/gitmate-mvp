@@ -54,7 +54,6 @@ def set_username(username):
         json.dump(status, f, indent=4)
 
 
-@ staticmethod
 def check_login_status():
     """
     Check if user is logged in.
@@ -71,7 +70,6 @@ def check_login_status():
         return True
 
 
-@ staticmethod
 def check_remote_login_status():
     """
     Check if user is logged in with github via PAT.
@@ -86,7 +84,6 @@ def check_remote_login_status():
         return True
 
 
-@ staticmethod
 def set_login_status(status_update: bool = True):
     """
     Set login status to True or False.
@@ -103,7 +100,6 @@ def set_login_status(status_update: bool = True):
         json.dump(status, f, indent=4)
 
 
-@ staticmethod
 def set_remote_login_status(status_update: bool = True):
     """
     Set remote login status to True or False.
@@ -120,7 +116,6 @@ def set_remote_login_status(status_update: bool = True):
         json.dump(status, f, indent=4)
 
 
-@ staticmethod
 def unset_git_config(name, email):
     """
     Unset git config.
@@ -135,7 +130,6 @@ def unset_git_config(name, email):
                    '--unset', 'user.email', email], check=False)
 
 
-@ staticmethod
 def set_git_config(name, email):
     """
     Set git config.
@@ -150,7 +144,6 @@ def set_git_config(name, email):
                    'user.email', email])
 
 
-@staticmethod
 def add_remote_credentials(username, password, url="https://github.com"):
     """
     Add remote credentials.
@@ -167,7 +160,6 @@ def add_remote_credentials(username, password, url="https://github.com"):
     process.communicate(input_data.encode())
 
 
-@staticmethod
 def remove_remote_credentials(username, url="https://github.com"):
     """
     Remove remote credentials.
@@ -183,7 +175,6 @@ def remove_remote_credentials(username, url="https://github.com"):
     process.communicate(input_data.encode())
 
 
-@staticmethod
 def setup_git_credential_helper(state="store", path=None):
     """
     Set git credential helper to provided state.
@@ -258,6 +249,44 @@ def init_and_first_commit(path):
         return True  # All commands executed successfully
     except subprocess.CalledProcessError:
         return False  # An error occurred while executing the commands
+
+
+def set_status_custom_host(status_update: bool = True):
+    """
+    Set status to custom.
+    """
+    with open(os.path.join(root_path, "status.json"), "r", encoding="utf-8") as f:
+        status = json.load(f)
+
+    status["custom_host"] = f"{status_update}"
+
+    with open(os.path.join(root_path, "status.json"), "w", encoding="utf-8") as f:
+        json.dump(status, f, indent=4)
+
+
+def use_custom_host_file_(host_name, host_url):
+    """
+    Create or update custom host file.
+    """
+    custom_host = {}
+    custom_host["host_name"] = f"{host_name}"
+    custom_host["host_url"] = f"{host_url}"
+
+    file_ = os.path.join(root_path, "custom.json")
+
+    if not os.path.exists(file_):
+        with open(file_, "w", encoding="utf-8") as f:
+            json.dump(custom_host, f, indent=4)
+
+    else:
+        with open(file_, "r", encoding="utf-8") as f:
+            custom = json.load(f)
+
+        custom["host_name"] = f"{host_name}"
+        custom["host_url"] = f"{host_url}"
+
+        with open(file_, "w", encoding="utf-8") as f:
+            json.dump(custom, f, indent=4)
 
 
 if __name__ == "__main__":
