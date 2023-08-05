@@ -175,6 +175,27 @@ def remove_remote_credentials(username, url="https://github.com"):
     process.communicate(input_data.encode())
 
 
+def get_remote_credentials_for_current_user():
+    """
+    Get remote credentials.
+
+    Returns:
+        dict: Dictionary containing username and password.
+    """
+    command = ['git', 'credential', 'fill']
+    input_data = 'url=https://github.com\n\n'
+
+    process = subprocess.Popen(
+        command, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+    output, _ = process.communicate(input_data.encode())
+
+    output = output.decode()
+    username = re.search(r'username=(.*)', output).group(1)
+    password = re.search(r'password=(.*)', output).group(1)
+
+    return {"username": username, "password": password}
+
+
 def setup_git_credential_helper(state="store", path=None):
     """
     Set git credential helper to provided state.
@@ -287,6 +308,16 @@ def use_custom_host_file_(host_name, host_url):
 
         with open(file_, "w", encoding="utf-8") as f:
             json.dump(custom, f, indent=4)
+
+
+def get_host():
+    """
+    Get host name and url.
+    """
+    with open(os.path.join(root_path, "status.json"), "r", encoding="utf-8") as f:
+        status = json.load(f)
+
+    return status["host"]
 
 
 if __name__ == "__main__":

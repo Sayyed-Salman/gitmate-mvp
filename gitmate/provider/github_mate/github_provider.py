@@ -29,10 +29,23 @@ class GithubProvider(Provider):
             return e
 
     def list_repos(self):
-        user = self.github.get_user()
-        repos = user.get_repos()
-        return repos
+        try:
+            user = self.github.get_user()
+            repos = user.get_repos()
+
+            repo_dict = {}
+
+            for repo in repos:
+                repo_dict[repo.name] = repo.html_url
+
+            return repo_dict
+        except Exception as e:
+            return None
 
     def find_if_repo_exists(self, repo_name):
-
-        return "yes"
+        user = self.github.get_user()
+        try:
+            repo = user.get_repo(repo_name)
+            return repo
+        except Exception as e:
+            return None

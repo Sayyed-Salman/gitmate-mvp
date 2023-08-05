@@ -1,7 +1,10 @@
-from utils import create_a_folder_with_readme
+from utils import create_a_folder_with_readme, get_host
 import os
 import click
 import logging
+
+from utils import get_username
+from gitmate.provider.factory import get_provider
 
 logger = logging.getLogger(__name__)
 
@@ -36,13 +39,20 @@ def repo(name, path):
     folder_path = create_a_folder_with_readme(name, new_path)
 
     # Create a repo in remote host.
+    host = get_host()
+    provider = get_provider(host)
+
+    current_user = get_username()
+
+    remote_repo = provider(username="username", token="token")
+
+    remote_repo.create_repo(name=name)
 
     # link both of them
 
     # init on local
 
     # push to remote
-
 
 
 create.add_command(repo)

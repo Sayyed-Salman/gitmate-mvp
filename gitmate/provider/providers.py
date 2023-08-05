@@ -1,4 +1,4 @@
-providers_ = {
+providers_path = {
     "github": [
         "provider.github_mate.github_provider",
         "GithubProvider"
