@@ -4,7 +4,8 @@ import click
 import logging
 
 from utils import get_username
-from gitmate.provider.factory import get_provider
+
+from provider.factory import get_provider
 
 logger = logging.getLogger(__name__)
 
