@@ -46,34 +46,40 @@ def local(username, email):
 def remote(host, token, custom_host_name, custom_host_url):
     """Login to remote repository"""
     # Check if already logged in
-    if check_remote_login_status():
-        click.echo("Already logged in!")
-        return
+    try:
+        if check_remote_login_status():
+            click.echo("Already logged in!")
+            return
 
-    if custom_host_name and not custom_host_url:
-        custom_host_url = click.prompt(
-            "Enter custom host url for remote repository : ", type=str)
-    elif custom_host_url and not custom_host_name:
-        custom_host_name = click.prompt(
-            "Enter custom host name for remote repository : ", type=str)
+        if custom_host_name and not custom_host_url:
+            custom_host_url = click.prompt(
+                "Enter custom host url for remote repository : ", type=str)
+        elif custom_host_url and not custom_host_name:
+            custom_host_name = click.prompt(
+                "Enter custom host name for remote repository : ", type=str)
 
-    if custom_host_name and custom_host_url:
-        set_status_custom_host()
-        use_custom_host_file_(custom_host_name, custom_host_url)
-        """
-        1. in status.json file set custom_host to true
-        2. create a new file 'custom.json' with host name and url 
-        3. later in code check if custom_host is true then read from custom.json file
-        """
+        if custom_host_name and custom_host_url:
+            set_status_custom_host()
+            use_custom_host_file_(custom_host_name, custom_host_url)
+            """
+            1. in status.json file set custom_host to true
+            2. create a new file 'custom.json' with host name and url 
+            3. later in code check if custom_host is true then read from custom.json file
+            """
 
-    # Setup git credential helper
-    credentials_ = setup_git_credential_helper()
+        # Setup git credential helper
+        credentials_ = setup_git_credential_helper()
 
-    username = get_username()
-    add_remote_credentials(username, token, host)
+        username = get_username()
+        add_remote_credentials(username, token, host)
 
-    if not credentials_ == 1:
-        click.echo("Something went wrong!")
+        if not credentials_ == 1:
+            click.echo("Something went wrong!")
+            click.echo("[!] Remote login failed!")
+            return
+
+    except Exception as e:
+        click.echo(e)
         click.echo("[!] Remote login failed!")
         return
 
