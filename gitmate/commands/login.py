@@ -2,7 +2,7 @@ import click
 import logging
 
 from utils import check_login_status, check_remote_login_status
-from utils import set_login_status, set_remote_login_status
+from utils import set_login_status, set_remote_login_status, set_host
 from utils import set_git_config, setup_git_credential_helper, set_username
 from utils import add_remote_credentials, get_username, set_status_custom_host, use_custom_host_file_
 from constants import PROVIDERS
@@ -79,11 +79,13 @@ def remote(host, token, custom_host_name, custom_host_url):
                 host_url = click.prompt(
                     "Enter host url for remote repository : ", type=str)
                 set_status_custom_host()
-                use_custom_host_file_(custom_host_name, custom_host_url)
+                use_custom_host_file_(hostname, host_url)
                 return host_url
 
         username = get_username()
         add_remote_credentials(username, token, _resolve_host_(host))
+        set_host(_resolve_host_(host))
+        set_remote_login_status()
 
         if not credentials_ == 1:
             click.echo("Something went wrong!")

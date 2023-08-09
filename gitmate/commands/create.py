@@ -4,8 +4,11 @@ import click
 import logging
 
 from utils import get_username
+from utils import get_remote_credentials_for_current_user
 
 from provider.factory import get_provider
+
+from constants import PROVIDERS
 
 logger = logging.getLogger(__name__)
 
@@ -41,13 +44,23 @@ def repo(name, path):
 
     # Create a repo in remote host.
     host = get_host()
-    provider = get_provider(host)
+
+    def _resolve_host_name(host):
+        for key, value in PROVIDERS.items():
+            if host in value:
+                return key
+        return None
+
+    # Returns a provider object based on the host name
+    provider = get_provider(_resolve_host_name(host))
 
     current_user = get_username()
 
-    remote_repo = provider(username="username", token="token")
+    creds = get_remote_credentials_for_current_user(current_user)
+    token = creds["password"]
+    remote_repo = provider(username=current_user, token=token)
 
-    remote_repo.create_repo(name=name)
+    remote_repo.create_repo()
 
     # link both of them
 

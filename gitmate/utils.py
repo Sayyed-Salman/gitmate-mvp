@@ -5,7 +5,7 @@ import subprocess
 import logging
 
 from errors import FileNotFoundError
-from .constants import PROVIDERS
+from constants import PROVIDERS
 
 logger = logging.getLogger(__name__)
 
@@ -177,15 +177,19 @@ def remove_remote_credentials(username, url="https://github.com"):
     process.communicate(input_data.encode())
 
 
-def get_remote_credentials_for_current_user():
+def get_remote_credentials_for_current_user(username, url=None):
     """
     Get remote credentials.
 
     Returns:
         dict: Dictionary containing username and password.
     """
+
     command = ['git', 'credential', 'fill']
-    input_data = 'url=https://github.com\n\n'
+    if not url:
+        input_data = f'url=https://github.com\n\nusername={username}\n\n'
+    else:
+        input_data = f'url={url}\n\nusername={username}\n\n'
 
     process = subprocess.Popen(
         command, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
@@ -314,18 +318,33 @@ def use_custom_host_file_(host_name, host_url):
 
 def get_host():
     """
-    Get host name and url.
+    Get host url.
     """
     with open(os.path.join(root_path, "status.json"), "r", encoding="utf-8") as f:
         status = json.load(f)
 
     return status["host"]
 
-def get_host_url(provider:str) -> str:
+
+def set_host(host):
+    """
+    Set host url.
+    """
+    with open(os.path.join(root_path, "status.json"), "r", encoding="utf-8") as f:
+        status = json.load(f)
+
+    status["host"] = f"{host}"
+
+    with open(os.path.join(root_path, "status.json"), "w", encoding="utf-8") as f:
+        json.dump(status, f, indent=4)
+
+    return True
+
+
+def get_host_url(provider: str) -> str:
     """
     From the provider name get the host url
     """
-
 
 
 if __name__ == "__main__":

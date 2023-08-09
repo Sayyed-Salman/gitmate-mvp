@@ -2,7 +2,7 @@
 Factory module for creating provider objects.
 """
 import importlib
-from .providers import providers_path
+from providers import providers_path
 
 
 def get_provider(provider_name: str):
