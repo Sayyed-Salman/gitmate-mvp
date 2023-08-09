@@ -39,7 +39,7 @@ def local(username, email):
 
 
 @click.command(name="remote")
-@click.option("--host", "-H", default="github", help="Host URL of remote repository (select one from {})".format(PROVIDERS), type=click.Choice(PROVIDERS), show_default=True, required=True)
+@click.option("--host", "-H", help="Host URL of remote repository (select one from {})".format(PROVIDERS), type=click.Choice(PROVIDERS), required=True)
 @click.option("--custom-host-name", "-c", help="Custom host name for remote repository")
 @click.option("--custom-host-url", "-u", help="Custom host url for remote repository")
 @click.option("--token", "-t", help="Access token for remote repository", required=True)
@@ -70,8 +70,20 @@ def remote(host, token, custom_host_name, custom_host_url):
         # Setup git credential helper
         credentials_ = setup_git_credential_helper()
 
+        def _resolve_host_(host) -> str:
+            if host in PROVIDERS:
+                return PROVIDERS[host]
+            else:
+                hostname = click.prompt(
+                    "Enter hostname for remote repository : ", type=str)
+                host_url = click.prompt(
+                    "Enter host url for remote repository : ", type=str)
+                set_status_custom_host()
+                use_custom_host_file_(custom_host_name, custom_host_url)
+                return host_url
+
         username = get_username()
-        add_remote_credentials(username, token, host)
+        add_remote_credentials(username, token, _resolve_host_(host))
 
         if not credentials_ == 1:
             click.echo("Something went wrong!")

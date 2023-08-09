@@ -3,7 +3,9 @@ import re
 import json
 import subprocess
 import logging
+
 from errors import FileNotFoundError
+from .constants import PROVIDERS
 
 logger = logging.getLogger(__name__)
 
@@ -318,6 +320,12 @@ def get_host():
         status = json.load(f)
 
     return status["host"]
+
+def get_host_url(provider:str) -> str:
+    """
+    From the provider name get the host url
+    """
+
 
 
 if __name__ == "__main__":
