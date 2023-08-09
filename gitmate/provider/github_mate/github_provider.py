@@ -23,7 +23,7 @@ class GithubProvider(Provider):
         user = self.github.get_user()
 
         try:
-            repo = user.create_repo(self.data.name)
+            repo = user.create_repo(self.data["name"])
             return repo
         except Exception as e:
             return e

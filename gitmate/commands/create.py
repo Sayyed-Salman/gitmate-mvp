@@ -59,7 +59,10 @@ def repo(name, path):
     creds = get_remote_credentials_for_current_user(current_user)
     token = creds["password"]
     remote_repo = provider(username=current_user, token=token)
-
+    remote_repo.data = {
+        "name": f"{name}",
+        "description": f"Created by {current_user} from gitmate."
+    }
     remote_repo.create_repo()
 
     # link both of them
